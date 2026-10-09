@@ -2,6 +2,7 @@ package com.aalmoghalis.muhasibsoft
 
 import android.app.Application
 import androidx.work.*
+import androidx.hilt.work.HiltWorkerFactory
 import com.aalmoghalis.muhasibsoft.data.local.DatabaseSeeder
 import com.aalmoghalis.muhasibsoft.utils.NotificationHelper
 import com.aalmoghalis.muhasibsoft.workers.StockMonitorWorker
