@@ -22,6 +22,9 @@ fun MainScreen(
     onNavigateToAccounts: () -> Unit,
     onNavigateToInventory: () -> Unit,
     onNavigateToSettings: () -> Unit,
+    onNavigateToVoucher: (String) -> Unit,
+    onNavigateToCurrencies: () -> Unit,
+    onNavigateToReports: () -> Unit,
     viewModel: MainViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsState()
@@ -59,7 +62,7 @@ fun MainScreen(
                     MainActionButton(
                         title = "قبض/صرف",
                         icon = Icons.Default.AttachMoney,
-                        onClick = { }
+                        onClick = { onNavigateToVoucher("receipt") }
                     )
                 }
                 
@@ -104,9 +107,15 @@ fun MainScreen(
             )
             
             ExpandableSection(
+                title = "العملات",
+                items = listOf("إدارة العملات"),
+                onItemClick = onNavigateToCurrencies
+            )
+
+            ExpandableSection(
                 title = "التقارير",
                 items = listOf("المخزون المتبقي", "أرصدة الحسابات", "أرباح الأصناف"),
-                onItemClick = { }
+                onItemClick = onNavigateToReports
             )
             
             Spacer(modifier = Modifier.weight(1f))
