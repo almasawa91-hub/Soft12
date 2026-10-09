@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Inventory2
 import androidx.compose.material.icons.filled.ReceiptLong
 import androidx.compose.material.icons.filled.Refresh
@@ -15,6 +16,9 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
@@ -45,6 +49,13 @@ class MainActivity : ComponentActivity() {
 private fun DashboardScreen(viewModel: MainViewModel = hiltViewModel()) {
     val state by viewModel.uiState.collectAsState()
     val numberFormat = NumberFormat.getNumberInstance(Locale("ar", "YE"))
+    var showAddItem by remember { mutableStateOf(false) }
+    var itemName by remember { mutableStateOf("") }
+    var barcode by remember { mutableStateOf("") }
+    var quantity by remember { mutableStateOf("0") }
+    var cost by remember { mutableStateOf("0") }
+    var price by remember { mutableStateOf("0") }
+    var formError by remember { mutableStateOf<String?>(null) }
     Scaffold(
         topBar = {
             TopAppBar(
@@ -55,6 +66,9 @@ private fun DashboardScreen(viewModel: MainViewModel = hiltViewModel()) {
                     }
                 },
                 actions = {
+                    IconButton(onClick = { showAddItem = true; formError = null }) {
+                        Icon(Icons.Default.Add, contentDescription = "إضافة صنف")
+                    }
                     IconButton(onClick = viewModel::refresh) {
                         Icon(Icons.Default.Refresh, contentDescription = "تحديث البيانات")
                     }
@@ -128,6 +142,42 @@ private fun DashboardScreen(viewModel: MainViewModel = hiltViewModel()) {
             }
         }
     }
+    if (showAddItem) {
+        AlertDialog(
+            onDismissRequest = { showAddItem = false },
+            title = { Text("إضافة صنف جديد") },
+            text = {
+                Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                    OutlinedTextField(value = itemName, onValueChange = { itemName = it }, label = { Text("اسم الصنف *") }, singleLine = true)
+                    OutlinedTextField(value = barcode, onValueChange = { barcode = it }, label = { Text("الباركود") }, singleLine = true)
+                    OutlinedTextField(value = quantity, onValueChange = { quantity = it }, label = { Text("الكمية الافتتاحية") }, singleLine = true)
+                    OutlinedTextField(value = cost, onValueChange = { cost = it }, label = { Text("تكلفة الوحدة") }, singleLine = true)
+                    OutlinedTextField(value = price, onValueChange = { price = it }, label = { Text("سعر البيع") }, singleLine = true)
+                    formError?.let { Text(it, color = MaterialTheme.colorScheme.error) }
+                }
+            },
+            confirmButton = {
+                TextButton(onClick = {
+                    val q = quantity.toDoubleOrNull()
+                    val c = cost.toDoubleOrNull()
+                    val p = price.toDoubleOrNull()
+                    if (q == null || c == null || p == null) {
+                        formError = "أدخل أرقاماً صحيحة للكمية والأسعار"
+                    } else {
+                        viewModel.addItem(itemName, barcode, q, c, p) { success, error ->
+                            if (success) {
+                                showAddItem = false
+                                itemName = ""; barcode = ""; quantity = "0"; cost = "0"; price = "0"
+                                formError = null
+                            } else formError = error
+                        }
+                    }
+                }) { Text("حفظ") }
+            },
+            dismissButton = { TextButton(onClick = { showAddItem = false }) { Text("إلغاء") } }
+        )
+    }
+
 }
 
 @Composable
