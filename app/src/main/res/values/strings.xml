@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">محاسب سوفت</string>
+    
+    <!-- الشاشات الرئيسية -->
+    <string name="sales">المبيعات</string>
+    <string name="purchases">المشتريات</string>
+    <string name="cash_in_out">قبض/صرف</string>
+    <string name="accounts">الحسابات</string>
+    <string name="inventory_operations">عمليات مخزنية</string>
+    <string name="journal_accounts">قيود وحسابات</string>
+    <string name="items">أصناف</string>
+    <string name="currencies">العملات</string>
+    <string name="reports">التقارير</string>
+    
+    <!-- العمليات المخزنية -->
+    <string name="inventory_dispense">صرف مخزني</string>
+    <string name="inventory_supply">توريد مخزني</string>
+    <string name="inventory_transfer">تحويل مخزني</string>
+    <string name="inventory_adjustment">تسوية مخزنية</string>
+    <string name="add_warehouse">إضافة مخزن</string>
+    <string name="inventory_count">جرد مخزني</string>
+    
+    <!-- عام -->
+    <string name="add">إضافة</string>
+    <string name="save">حفظ</string>
+    <string name="cancel">إلغاء</string>
+    <string name="delete">حذف</string>
+    <string name="edit">تعديل</string>
+    <string name="search">بحث</string>
+    <string name="no_results">لا توجد نتائج…</string>
+    <string name="loading">جاري التحميل…</string>
+    <string name="error">حدث خطأ</string>
+    <string name="success">تم بنجاح</string>
+    
+    <!-- الحقول -->
+    <string name="name">الاسم</string>
+    <string name="date">التاريخ</string>
+    <string name="amount">المبلغ</string>
+    <string name="quantity">الكمية</string>
+    <string name="price">السعر</string>
+    <string name="total">الإجمالي</string>
+    <string name="notes">ملاحظات</string>
+    <string name="warehouse">المخزن</string>
+    <string name="customer">العميل</string>
+    <string name="supplier">المورد</string>
+    <string name="item_name">اسم الصنف</string>
+    <string name="invoice_number">رقم الفاتورة</string>
+    
+    <!-- الأنواع -->
+    <string name="cash">نقدي</string>
+    <string name="credit">آجل</string>
+    <string name="local">محلي</string>
+    <string name="dollar">دولار</string>
+    
+    <!-- الإعدادات -->
+    <string name="settings">الإعدادات</string>
+    <string name="personal_data">البيانات الشخصية</string>
+    <string name="print_settings">خيارات الطباعة</string>
+    <string name="security_settings">خيارات الأمان</string>
+    <string name="users_permissions">المستخدمين والصلاحيات</string>
+    <string name="categories">التصنيفات</string>
+    <string name="item_groups">مجموعة الصنف</string>
+    <string name="units">وحدات القياس</string>
+    <string name="backup">حفظ البيانات</string>
+    <string name="thermal_printer">الطابعة الحرارية</string>
+    <string name="tax">الضريبة</string>
+    <string name="barcode">باركود الأصناف</string>
+    <string name="notifications">الإشعارات</string>
+    <string name="other_settings">خيارات أخرى</string>
+    <string name="subscription">تفعيل الاشتراك</string>
+    
+    <!-- التقارير -->
+    <string name="inventory_balance">المخزون المتبقي</string>
+    <string name="accounts_balance">أرصدة الحسابات</string>
+    <string name="items_profit">أرباح الأصناف</string>
+    <string name="daily_operations">العمليات اليومية</string>
+    <string name="daily_journal">القيود اليومية</string>
+    <string name="cash_flow">حركة الصندوق</string>
+    <string name="accounts_flow">حركة الحسابات</string>
+    <string name="categories_total">إجمالي التصنيفات</string>
+    <string name="currency_rates">فوارق أسعار العملات</string>
+    <string name="working_capital">رأس المال العامل</string>
+    <string name="customer_profit">الربح على مستوى العميل</string>
+    <string name="sales_by_item">المبيعات حسب الصنف</string>
+    <string name="purchases_by_item">المشتريات حسب الصنف</string>
+    <string name="items_movement">تفاصيل حركة الأصناف</string>
+    
+    <!-- رسائل -->
+    <string name="confirm_delete">هل أنت متأكد من الحذف؟</string>
+    <string name="yes">نعم</string>
+    <string name="no">لا</string>
+    <string name="required_field">هذا الحقل مطلوب</string>
+    <string name="invalid_number">رقم غير صحيح</string>
+</resources>
