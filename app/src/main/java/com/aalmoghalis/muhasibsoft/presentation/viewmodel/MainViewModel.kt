@@ -31,6 +31,34 @@ class MainViewModel @Inject constructor(
                 .collect { items -> _uiState.update { it.copy(isLoading = false, items = items, itemCount = items.size, error = null) } }
         }
     }
+    fun addItem(name: String, barcode: String?, quantity: Double, cost: Double, price: Double, onComplete: (Boolean, String?) -> Unit) {
+        val cleanName = name.trim()
+        if (cleanName.isEmpty()) {
+            onComplete(false, "اسم الصنف مطلوب")
+            return
+        }
+        if (quantity < 0.0 || cost < 0.0 || price < 0.0) {
+            onComplete(false, "لا يمكن إدخال قيم سالبة")
+            return
+        }
+        viewModelScope.launch {
+            try {
+                itemDao.insertItem(Item(
+                    name = cleanName,
+                    barcode = barcode?.trim()?.takeIf { it.isNotEmpty() },
+                    currentQuantity = quantity,
+                    openingQuantity = quantity,
+                    unitCost = cost,
+                    sellingPrice = price
+                ))
+                refresh()
+                onComplete(true, null)
+            } catch (error: Exception) {
+                onComplete(false, error.localizedMessage ?: "تعذر حفظ الصنف")
+            }
+        }
+    }
+
     fun refresh() {
         viewModelScope.launch {
             try {
