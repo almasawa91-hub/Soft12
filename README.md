@@ -1,83 +1,53 @@
-# محاسب سوفت - Muhasib Soft
+# محاسب سوفت — Muhasib Soft
 
-تطبيق محاسبة متكامل للأندرويد مبني بـ Kotlin و Jetpack Compose
+تطبيق محاسبة للأندرويد مبني باستخدام Kotlin وJetpack Compose.
 
-## المميزات
+## الميزات الحالية في المستودع
+- إدارة المبيعات والمشتريات.
+- متابعة المخزون والعمليات المخزنية.
+- الحسابات والقيود اليومية والسندات.
+- التقارير والتصدير والطباعة الحرارية.
+- دعم الواجهة العربية واتجاه RTL.
+- قاعدة بيانات محلية باستخدام Room.
 
-- 📊 إدارة المبيعات والمشتريات
-- 📦 تتبع المخزون
-- 💰 إدارة الحسابات والقيود اليومية
-- 📈 تقارير شاملة
-- 🖨️ دعم الطباعة الحرارية
-- 🌍 دعم كامل للغة العربية (RTL)
+> ملاحظة: وجود ملفات الشاشات لا يعني وحده أن كل المسارات والميزات مكتملة أو مختبرة. راجع نتائج GitHub Actions قبل اعتماد أي إصدار.
 
-## المتطلبات التقنية
+## المتطلبات
+- JDK 17.
+- Android SDK مع منصة Android 34 وأدوات البناء.
+- Gradle 8.4 (يستخدم مشغّل المشروع `gradlew`).
+- الحد الأدنى Android SDK 24.
 
-- Android Studio Hedgehog أو أحدث
-- Kotlin 1.9.20
-- Jetpack Compose
-- Material 3
-- الحد الأدنى SDK: 24 (Android 7.0)
-- الهدف SDK: 34
-
-## المكتبات المستخدمة
-
-- **Room** - قاعدة بيانات محلية
-- **Hilt** - حقن التبعيات
-- **Navigation Compose** - التنقل بين الشاشات
-- **DataStore** - تخزين الإعدادات
-- **Coil** - تحميل الصور
-- **Coroutines & Flow** - البرمجة غير المتزامنة
-
-## التثبيت
-
-1. استنسخ المستودع:
+## البناء والاختبار
+على Linux أو macOS:
 ```bash
-git clone https://github.com/YOUR_USERNAME/MuhasibSoft.git
+git clone https://github.com/almasawa91-hub/Soft12.git
+cd Soft12
+chmod +x ./gradlew
+./gradlew build
+./gradlew test
+./gradlew assembleDebug
 ```
 
-2. افتح المشروع في Android Studio
+على Windows استخدم `gradlew.bat` من مجلد المشروع.
 
-3. انتظر حتى ينتهي Gradle من البناء
+ينشئ البناء التجريبي APK في:
+`app/build/outputs/apk/debug/app-debug.apk`
 
-4. شغل التطبيق على جهاز حقيقي أو محاكي
-
-## البنية المعمارية
-
+## بنية المشروع
 ```
-app/
-├── data/
-│   ├── local/          # Room Database
-│   ├── model/          # Data Classes
-│   └── repository/     # Repository Pattern
-├── di/                 # Hilt Modules
-└── presentation/
-    ├── components/     # Reusable UI Components
-    ├── screens/        # App Screens
-    ├── theme/          # App Theme
-    └── viewmodel/      # ViewModels
+app/src/main/java/com/aalmoghalis/muhasibsoft/
+├── data/          # نماذج البيانات، Room، المستودعات
+├── di/            # حقن التبعيات
+├── presentation/  # الشاشات وViewModels والتنقل
+├── utils/         # أدوات مساعدة وتصدير
+└── workers/       # المهام الخلفية
 ```
 
-## الشاشات
+## الأمان
+- كلمات مرور المستخدمين الجديدة تُخزّن على شكل تجزئة مملحة PBKDF2-HMAC-SHA256، وليس كنص صريح.
+- يجب حماية النسخ الاحتياطية وملفات APK وبيانات قاعدة البيانات عند مشاركتها.
+- لا تُدرج مفاتيح توقيع أو أسرار أو بيانات مستخدمين حقيقية في المستودع.
 
-- الشاشة الرئيسية
-- المبيعات (قائمة + إضافة)
-- المشتريات (قائمة + إضافة)
-- الحسابات
-- العمليات المخزنية
-- القيود اليومية
-- التقارير
-- الإعدادات
-
-## المساهمة
-
-المساهمات مرحب بها! يرجى فتح Issue أولاً لمناقشة التغييرات.
-
-## الترخيص
-
-MIT License
-
-## التواصل
-
-- Email: support@muhasibsoft.com
-- Website: https://muhasibsoft.com
+## المساهمة والترخيص
+راجع [CONTRIBUTING.md](CONTRIBUTING.md). الترخيص: MIT.
