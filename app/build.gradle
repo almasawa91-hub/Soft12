@@ -103,10 +103,6 @@ dependencies {
     
     // Coroutines
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3'
-    
-    // Date & Time
-    implementation 'net.time4j:time4j-android:5.1.2'
-    
     // PDF Generation
     implementation 'com.itextpdf:itext7-core:7.2.5'
     
