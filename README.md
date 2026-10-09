@@ -19,6 +19,8 @@
 - الحد الأدنى Android SDK 24.
 
 ## البناء والاختبار
+
+يتم التحقق من البناء والاختبارات تلقائياً عبر GitHub Actions عند كل تحديث.
 على Linux أو macOS:
 ```bash
 git clone https://github.com/almasawa91-hub/Soft12.git
