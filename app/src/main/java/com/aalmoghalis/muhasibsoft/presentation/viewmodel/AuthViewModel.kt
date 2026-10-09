@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.aalmoghalis.muhasibsoft.data.local.UserDao
 import com.aalmoghalis.muhasibsoft.data.model.User
+import com.aalmoghalis.muhasibsoft.utils.PasswordUtils
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -16,55 +17,34 @@ import javax.inject.Inject
 class AuthViewModel @Inject constructor(
     private val userDao: UserDao
 ) : ViewModel() {
-
     private val _uiState = MutableStateFlow(AuthUiState())
     val uiState: StateFlow<AuthUiState> = _uiState.asStateFlow()
-
     private var currentUser: User? = null
 
-    /**
-     * تسجيل الدخول بالتحقق من قاعدة البيانات
-     */
+    /** تسجيل الدخول مع ترحيل كلمات المرور القديمة إلى صيغة مجزأة عند نجاح الدخول. */
     fun login(username: String, password: String) {
         viewModelScope.launch {
             _uiState.update { it.copy(isLoading = true, error = null) }
-
             try {
-                val user = userDao.getUserByUsername(username)
-
+                val user = userDao.getUserByUsername(username.trim())
                 when {
-                    user == null -> {
-                        _uiState.update {
-                            it.copy(
-                                isLoading = false,
-                                error = "اسم المستخدم غير موجود"
-                            )
-                        }
+                    user == null -> _uiState.update {
+                        it.copy(isLoading = false, error = "اسم المستخدم غير موجود")
                     }
-                    user.password != password -> {
-                        _uiState.update {
-                            it.copy(
-                                isLoading = false,
-                                error = "كلمة المرور غير صحيحة"
-                            )
-                        }
+                    !PasswordUtils.verify(password, user.password) -> _uiState.update {
+                        it.copy(isLoading = false, error = "كلمة المرور غير صحيحة")
                     }
-                    !user.isActive -> {
-                        _uiState.update {
-                            it.copy(
-                                isLoading = false,
-                                error = "الحساب غير مفعل، راجع مدير النظام"
-                            )
-                        }
+                    !user.isActive -> _uiState.update {
+                        it.copy(isLoading = false, error = "الحساب غير مفعل، راجع مدير النظام")
                     }
                     else -> {
-                        currentUser = user
+                        val secureUser = if (PasswordUtils.isHashed(user.password)) user
+                        else user.copy(password = PasswordUtils.hash(password)).also {
+                            userDao.updateUser(it)
+                        }
+                        currentUser = secureUser
                         _uiState.update {
-                            it.copy(
-                                isLoading = false,
-                                isLoggedIn = true,
-                                currentUser = user
-                            )
+                            it.copy(isLoading = false, isLoggedIn = true, currentUser = secureUser)
                         }
                     }
                 }
@@ -76,11 +56,11 @@ class AuthViewModel @Inject constructor(
         }
     }
 
-    /**
-     * تسجيل الدخول السريع (تخطي)
-     */
+    /** لا تسمح بتجاوز المصادقة. */
     fun skipLogin() {
-        _uiState.update { it.copy(isLoggedIn = true) }
+        _uiState.update {
+            it.copy(isLoggedIn = false, error = "يرجى تسجيل الدخول باستخدام حسابك")
+        }
     }
 
     fun logout() {
